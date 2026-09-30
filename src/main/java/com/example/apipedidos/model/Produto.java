@@ -1,10 +1,13 @@
 package com.example.apipedidos.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -26,6 +29,9 @@ public class Produto {
     @NotNull
     @Positive
     private Integer estoque;
+
+    @OneToMany(mappedBy = "produto")
+    List<ItemPedido> itens = new ArrayList<>();
 
     public Produto(
             String nome,
@@ -71,5 +77,13 @@ public class Produto {
 
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
+    }
+
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
     }
 }
