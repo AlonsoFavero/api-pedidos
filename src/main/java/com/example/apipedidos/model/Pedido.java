@@ -5,8 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.OneToMany;
+
 @Entity
 public class Pedido {
+
 
     public Cliente getCliente() {
         return cliente;
@@ -24,11 +29,22 @@ public class Pedido {
         this.id = id;
     }
 
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
     @ManyToOne
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itens = new ArrayList<>();
 
     public Pedido(Cliente cliente){
         this.cliente = cliente;
