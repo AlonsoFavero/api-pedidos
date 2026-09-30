@@ -4,6 +4,8 @@ import com.example.apipedidos.model.Cliente;
 import com.example.apipedidos.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClienteService{
 
@@ -16,6 +18,12 @@ public class ClienteService{
     public Cliente salvar(Cliente cliente){
 
         return clienteRepository.save(cliente);
+    }
+
+    public Cliente buscarPorId(Long id){
+
+        return clienteRepository.findById(id).orElse(null);
+
     }
 }
 
