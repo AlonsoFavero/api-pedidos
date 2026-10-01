@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ClienteService{
+public class ClienteService {
 
     private ClienteRepository clienteRepository;
 
@@ -15,19 +15,15 @@ public class ClienteService{
         this.clienteRepository = clienteRepository;
     }
 
-    public Cliente salvar(Cliente cliente){
-
+    public Cliente salvar(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente buscarPorId(Long id){
-
+    public Cliente buscarPorId(Long id) {
         return clienteRepository.findById(id).orElse(null);
-
     }
 
-    public List<Cliente> listar(){
-
+    public List<Cliente> listar() {
         return clienteRepository.findAll();
     }
 }
