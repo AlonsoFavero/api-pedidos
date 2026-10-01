@@ -4,7 +4,7 @@ import com.example.apipedidos.model.Cliente;
 import com.example.apipedidos.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ClienteService{
@@ -24,6 +24,11 @@ public class ClienteService{
 
         return clienteRepository.findById(id).orElse(null);
 
+    }
+
+    public List<Cliente> listar(){
+
+        return clienteRepository.findAll();
     }
 }
 
