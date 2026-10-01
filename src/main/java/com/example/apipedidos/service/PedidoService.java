@@ -18,4 +18,9 @@ public class PedidoService {
 
         return pedidoRepository.save(pedido);
     }
+
+    public Pedido buscarPorId(Long id){
+
+        return pedidoRepository.findById(id).orElse(null);
+    }
 }
