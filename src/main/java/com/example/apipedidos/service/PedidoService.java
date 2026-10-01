@@ -4,6 +4,8 @@ import com.example.apipedidos.model.Pedido;
 import com.example.apipedidos.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PedidoService {
 
@@ -22,5 +24,10 @@ public class PedidoService {
     public Pedido buscarPorId(Long id){
 
         return pedidoRepository.findById(id).orElse(null);
+    }
+
+    public List<Pedido> listar(){
+
+        return pedidoRepository.findAll();
     }
 }
