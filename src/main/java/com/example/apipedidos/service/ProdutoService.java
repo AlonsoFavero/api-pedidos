@@ -17,4 +17,9 @@ public class ProdutoService {
 
          return produtoRepository.save(produto);
     }
+
+    public Produto buscarPorId(Long id){
+
+        return produtoRepository.findById(id).orElse(null);
+    }
 }
