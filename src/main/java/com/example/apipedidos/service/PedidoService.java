@@ -1,6 +1,7 @@
 package com.example.apipedidos.service;
 
 import com.example.apipedidos.model.Pedido;
+import com.example.apipedidos.repository.ClienteRepository;
 import com.example.apipedidos.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,12 @@ import java.util.List;
 public class PedidoService {
 
     private PedidoRepository pedidoRepository;
+    private ClienteRepository clienteRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository){
+    public PedidoService(PedidoRepository pedidoRepository, ClienteRepository clienteRepository ){
 
         this.pedidoRepository = pedidoRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     public Pedido salvar(Pedido pedido){
