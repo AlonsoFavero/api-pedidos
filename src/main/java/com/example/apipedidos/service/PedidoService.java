@@ -12,6 +12,7 @@ import com.example.apipedidos.repository.PedidoRepository;
 import com.example.apipedidos.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,9 @@ public class PedidoService {
             produto .setEstoque(
                     produto.getEstoque() - itemPedido.getQuantidade()
             );
+
+            BigDecimal valorItem = produto.getPreco()
+                    .multiply(BigDecimal.valueOf(itemPedido.getQuantidade()));
 
         }
         return pedidoRepository.save(pedido);
