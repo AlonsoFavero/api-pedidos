@@ -1,10 +1,14 @@
 package com.example.apipedidos.service;
 
 import com.example.apipedidos.exception.ClienteNotFoundException;
+import com.example.apipedidos.exception.ProdutoNotFoundException;
 import com.example.apipedidos.model.Cliente;
+import com.example.apipedidos.model.ItemPedido;
 import com.example.apipedidos.model.Pedido;
+import com.example.apipedidos.model.Produto;
 import com.example.apipedidos.repository.ClienteRepository;
 import com.example.apipedidos.repository.PedidoRepository;
+import com.example.apipedidos.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +19,13 @@ public class PedidoService {
 
     private PedidoRepository pedidoRepository;
     private ClienteRepository clienteRepository;
+    private ProdutoRepository produtoRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository, ClienteRepository clienteRepository ){
+    public PedidoService(PedidoRepository pedidoRepository, ClienteRepository clienteRepository, ProdutoRepository produtoRepository ){
 
         this.pedidoRepository = pedidoRepository;
         this.clienteRepository = clienteRepository;
+        this.produtoRepository = produtoRepository;
     }
 
     public Pedido salvar(Pedido pedido){
@@ -28,13 +34,23 @@ public class PedidoService {
 
         Optional<Cliente> clienteEncontrado = clienteRepository.findById(cliente.getId());
 
-        if(clienteEncontrado.isPresent()){
-
-             return pedidoRepository.save(pedido);
-        }else {
+        if(!clienteEncontrado.isPresent()) {
 
             throw new ClienteNotFoundException("cliente não encontrado");
         }
+
+        for(ItemPedido itemPedido : pedido.getItens()){
+
+            Produto produto = itemPedido.getProduto();
+
+            Optional<Produto> produtoEncontrado = produtoRepository.findById(produto.getId());
+
+            if(!produtoEncontrado.isPresent()){
+
+                throw new ProdutoNotFoundException("produto não encontardo");
+            }
+        }
+        return pedidoRepository.save(pedido);
     }
 
     public Pedido buscarPorId(Long id){
