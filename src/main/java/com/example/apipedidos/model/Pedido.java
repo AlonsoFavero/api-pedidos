@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.OneToMany;
@@ -37,9 +38,18 @@ public class Pedido {
         this.itens = itens;
     }
 
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
+    private BigDecimal total;
     @ManyToOne
     private Cliente cliente;
 
