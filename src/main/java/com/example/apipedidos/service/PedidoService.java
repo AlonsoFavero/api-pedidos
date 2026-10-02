@@ -1,6 +1,7 @@
 package com.example.apipedidos.service;
 
 import com.example.apipedidos.exception.ClienteNotFoundException;
+import com.example.apipedidos.exception.EstoqueInsuficienteException;
 import com.example.apipedidos.exception.ProdutoNotFoundException;
 import com.example.apipedidos.model.Cliente;
 import com.example.apipedidos.model.ItemPedido;
@@ -49,6 +50,12 @@ public class PedidoService {
 
                 throw new ProdutoNotFoundException("produto não encontardo");
             }
+
+            if(itemPedido.getQuantidade() > produto.getEstoque()){
+
+                throw new EstoqueInsuficienteException("estoque insuficiente");
+            }
+
         }
         return pedidoRepository.save(pedido);
     }
