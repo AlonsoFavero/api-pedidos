@@ -3,10 +3,7 @@ package com.example.apipedidos.service;
 import com.example.apipedidos.exception.ClienteNotFoundException;
 import com.example.apipedidos.exception.EstoqueInsuficienteException;
 import com.example.apipedidos.exception.ProdutoNotFoundException;
-import com.example.apipedidos.model.Cliente;
-import com.example.apipedidos.model.ItemPedido;
-import com.example.apipedidos.model.Pedido;
-import com.example.apipedidos.model.Produto;
+import com.example.apipedidos.model.*;
 import com.example.apipedidos.repository.ClienteRepository;
 import com.example.apipedidos.repository.PedidoRepository;
 import com.example.apipedidos.repository.ProdutoRepository;
@@ -82,5 +79,22 @@ public class PedidoService {
     public List<Pedido> listar(){
 
         return pedidoRepository.findAll();
+    }
+
+    public Pedido pagar (Long id){
+
+        Optional<Pedido> pedidoEncontrado = pedidoRepository.findById(id);
+
+    if(!pedidoEncontrado.isPresent()){
+
+        throw new ProdutoNotFoundException("pedido não encontardo");
+
+    }
+
+    Pedido pedido = pedidoEncontrado.get();
+
+    pedido.setStatusPedido(StatusPedido.PAGO);
+
+    return pedidoRepository.save(pedido);
     }
 }
