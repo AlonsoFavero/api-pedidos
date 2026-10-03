@@ -1,14 +1,10 @@
 package com.example.apipedidos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Pedido {
@@ -46,18 +42,29 @@ public class Pedido {
         this.total = total;
     }
 
+    public StatusPedido getStatusPedido() {
+        return statusPedido;
+    }
+
+    public void setStatusPedido(StatusPedido statusPedido) {
+        this.statusPedido = statusPedido;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
     private BigDecimal total;
     @ManyToOne
     private Cliente cliente;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido statusPedido;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
 
     public Pedido(Cliente cliente){
         this.cliente = cliente;
+        this.statusPedido = StatusPedido.PENDENTE;
     }
 
     public Pedido(){
