@@ -41,6 +41,8 @@ public class PedidoService {
             throw new ClienteNotFoundException("cliente não encontrado");
         }
 
+        BigDecimal total = BigDecimal.ZERO;
+
         for(ItemPedido itemPedido : pedido.getItens()){
 
             Produto produto = itemPedido.getProduto();
@@ -64,7 +66,11 @@ public class PedidoService {
             BigDecimal valorItem = produto.getPreco()
                     .multiply(BigDecimal.valueOf(itemPedido.getQuantidade()));
 
+          total =  total.add(valorItem);
         }
+
+        pedido.setTotal(total);
+
         return pedidoRepository.save(pedido);
     }
 
