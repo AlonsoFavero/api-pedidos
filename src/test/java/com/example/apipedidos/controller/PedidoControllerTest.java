@@ -56,6 +56,9 @@ public class PedidoControllerTest {
                 .getResponse()
                 .getContentAsString();
 
+        System.out.println(produtoJson);
+        System.out.println(clienteJson);
+
         mockMvc.perform(
                 post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
