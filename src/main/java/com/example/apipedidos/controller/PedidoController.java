@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController{
@@ -35,5 +37,11 @@ public class PedidoController{
     public Pedido buscarPorId(@PathVariable Long id){
 
         return pedidoService.buscarPorId(id);
+    }
+
+    @GetMapping
+    public List<Pedido> listar(){
+
+        return pedidoService.listar();
     }
 }
