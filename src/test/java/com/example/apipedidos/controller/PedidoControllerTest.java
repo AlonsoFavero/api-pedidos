@@ -56,16 +56,22 @@ public class PedidoControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        System.out.println(produtoJson);
-        System.out.println(clienteJson);
+        System.out.println("PRODUTO" + produtoJson);
+        System.out.println("CLIENTE" + clienteJson);
+        System.out.println("ANTES DE CRIAR PEDIDO");
+        System.out.println("PEDIDO CRIADO");
 
         mockMvc.perform(
                 post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                    "id do cliente": ...,
-                                    "id do produto": ...,
+                                    "cliente":{
+                                    "id": 1
+                                    },
+                                    "produto": {
+                                    "id": 1
+                                    },
                                     "quantidade": 1
                                 }
                                 """)
