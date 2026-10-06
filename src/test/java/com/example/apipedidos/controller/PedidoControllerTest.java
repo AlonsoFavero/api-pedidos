@@ -177,4 +177,75 @@ public class PedidoControllerTest {
         );
 
     }
+
+    @Test
+    void deveListarPedido() throws Exception{
+
+        ResultActions produtos = mockMvc.perform(
+                post("/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "nome": "Mouse",
+                                "preco": 100,
+                                "estoque": 10
+                                }
+                                """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        ResultActions cliente = mockMvc.perform(
+                post("/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "nome": "Alonso",
+                                "email": "alonso@email.com"
+                                }
+                                """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        String produtoJson = produtos.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ResultActions pedido = mockMvc.perform(
+                post("/pedidos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "cliente":{
+                                "id": 1
+                                },
+                                "itens":[
+                                {
+                                "produto": {
+                                "id": 1
+                                },
+                                "quantidade": 1
+                                }
+                                ]
+                                }
+                                """)
+        ).andDo(result -> System.out.println(
+                result.getResponse().getContentAsString()
+        ));
+
+        String pedidoJson = pedido.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode pedidoNode = mapper.readTree(pedidoJson);
+        Long buscarPedido = pedidoNode.get("id").asLong();
+
+        ResultActions deveListarPedido = mockMvc.perform(
+                get("/pedidos")
+        ).andExpect(
+                status().isOk()
+        );
+    }
 }
