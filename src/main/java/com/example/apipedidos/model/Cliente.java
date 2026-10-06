@@ -1,5 +1,6 @@
 package com.example.apipedidos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -47,6 +48,7 @@ public class Cliente {
     private String nome;
     @NotBlank
     private String email;
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

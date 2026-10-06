@@ -7,8 +7,11 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -61,7 +64,7 @@ public class PedidoControllerTest {
         System.out.println("ANTES DE CRIAR PEDIDO");
         System.out.println("PEDIDO CRIADO");
 
-        mockMvc.perform(
+      ResultActions pedido =  mockMvc.perform(
                 post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -77,6 +80,22 @@ public class PedidoControllerTest {
                                 """)
         ).andExpect(
                 status().isCreated()
+        );
+
+      String pedidoJson = pedido.andReturn()
+              .getResponse()
+              .getContentAsString();
+
+      System.out.println("PEDIDO" + pedidoJson);
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode pedidoNode = mapper.readTree(pedidoJson);
+        Long buscarPedido = pedidoNode.get("id").asLong();
+
+        mockMvc.perform(
+                put("/pedidos/" + buscarPedido + "/pagar")
+        ).andExpect(
+                status().isOk()
         );
     }
 }
