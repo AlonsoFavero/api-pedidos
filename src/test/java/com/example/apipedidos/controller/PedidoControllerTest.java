@@ -61,41 +61,47 @@ public class PedidoControllerTest {
 
         System.out.println("PRODUTO" + produtoJson);
         System.out.println("CLIENTE" + clienteJson);
-        System.out.println("ANTES DE CRIAR PEDIDO");
-        System.out.println("PEDIDO CRIADO");
 
-      ResultActions pedido =  mockMvc.perform(
+        ResultActions pedido = mockMvc.perform(
                 post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
                                     "cliente":{
-                                    "id": 1
+                                        "id": 1
                                     },
-                                    "produto": {
-                                    "id": 1
-                                    },
-                                    "quantidade": 1
+                                    "itens": [
+                                        {
+                                            "produto": {
+                                                "id": 1
+                                            },
+                                            "quantidade": 1
+                                        }
+                                    ]
                                 }
                                 """)
-        ).andExpect(
-                status().isCreated()
-        );
+        ).andDo(result -> System.out.println(
+                result.getResponse().getContentAsString()
+        ));
 
-      String pedidoJson = pedido.andReturn()
-              .getResponse()
-              .getContentAsString();
-
-      System.out.println("PEDIDO" + pedidoJson);
+        String pedidoJson = pedido.andReturn()
+                .getResponse()
+                .getContentAsString();
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode pedidoNode = mapper.readTree(pedidoJson);
         Long buscarPedido = pedidoNode.get("id").asLong();
 
-        mockMvc.perform(
+        ResultActions pagamento = mockMvc.perform(
                 put("/pedidos/" + buscarPedido + "/pagar")
         ).andExpect(
                 status().isOk()
         );
+
+        String pagamentoJson = pagamento.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        System.out.println("PAGAMENTO" + pagamentoJson);
     }
 }

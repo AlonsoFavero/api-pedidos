@@ -51,16 +51,16 @@ public class PedidoService {
                 throw new ProdutoNotFoundException("produto não encontardo");
             }
 
-            if(itemPedido.getQuantidade() > produto.getEstoque()){
+            if(itemPedido.getQuantidade() > produtoEncontrado.get().getEstoque()){
 
                 throw new EstoqueInsuficienteException("estoque insuficiente");
             }
 
             produto .setEstoque(
-                    produto.getEstoque() - itemPedido.getQuantidade()
+                    produtoEncontrado.get().getEstoque() - itemPedido.getQuantidade()
             );
 
-            BigDecimal valorItem = produto.getPreco()
+            BigDecimal valorItem = produtoEncontrado.get().getPreco()
                     .multiply(BigDecimal.valueOf(itemPedido.getQuantidade()));
 
           total =  total.add(valorItem);
