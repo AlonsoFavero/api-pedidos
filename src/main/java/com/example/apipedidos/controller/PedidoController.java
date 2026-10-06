@@ -30,4 +30,10 @@ public class PedidoController{
 
         return pedidoService.pagar(id);
     }
+
+    @GetMapping("/{id}")
+    public Pedido buscarPorId(@PathVariable Long id){
+
+        return pedidoService.buscarPorId(id);
+    }
 }
