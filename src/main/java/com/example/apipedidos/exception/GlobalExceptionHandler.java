@@ -19,4 +19,10 @@ public class GlobalExceptionHandler{
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    @ExceptionHandler(ProdutoNotFoundException.class)
+    public ResponseEntity<?> tratarProdutoNaoEncontrado (ProdutoNotFoundException exception){
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }
