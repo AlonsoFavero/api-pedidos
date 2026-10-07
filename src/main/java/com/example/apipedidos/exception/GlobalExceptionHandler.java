@@ -13,4 +13,10 @@ public class GlobalExceptionHandler{
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    @ExceptionHandler(ClienteNotFoundException.class)
+    public ResponseEntity<?> tratarClienteNaoEncontrado (ClienteNotFoundException exception){
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }
