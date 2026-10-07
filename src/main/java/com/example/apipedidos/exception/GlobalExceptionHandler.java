@@ -25,4 +25,10 @@ public class GlobalExceptionHandler{
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    @ExceptionHandler(EstoqueInsuficienteException.class)
+    public ResponseEntity<?> tratarEstoqueInsuficiente (EstoqueInsuficienteException exception){
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 }
