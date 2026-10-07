@@ -248,4 +248,14 @@ public class PedidoControllerTest {
                 status().isOk()
         );
     }
+
+    @Test
+    void deveRetornar404AoPagarPedidoInexistente() throws Exception{
+
+       ResultActions deveRetornar404  = mockMvc.perform(
+                put("/pedidos/999/pagar")
+        ).andExpect(
+                status().isNotFound()
+        );
+    }
 }
