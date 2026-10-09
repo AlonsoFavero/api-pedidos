@@ -318,4 +318,86 @@ public class PedidoControllerTest {
                 status().isNotFound()
         );
     }
+
+    @Test
+    void deveRetornar400QuandoEstoqueForInsuficiente() throws Exception{
+        ResultActions produto = mockMvc.perform(
+                post("/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                
+                                "nome":
+                                "Mouse"
+                                ,
+                                "preco":
+                                100
+                                ,
+                                "estoque":
+                                2
+                                
+                                }
+                                """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        ResultActions cliente = mockMvc.perform(
+                post("/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                               {
+                               "nome":
+                               "Alonso"
+                               ,
+                               "email":
+                               "alonso@email.com"
+                               
+                               }
+                               """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        String produtoJson = produto.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        String clienteJson = cliente.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Long produtoId = mapper.readTree(produtoJson)
+                .get("id").asLong();
+
+        Long clienteId = mapper.readTree(clienteJson)
+                .get("id").asLong();
+
+
+        ResultActions pedidos = mockMvc.perform(
+                post("/pedidos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                
+                                "cliente": {
+                                    "id": %d
+                                },
+                                "itens":[
+                                
+                                {
+                                "produto":{
+                                "id":%d
+                                },
+                                "quantidade":5
+                                }
+                                ]
+                              
+                                """.formatted(clienteId, produtoId))
+        ).andExpect(
+                status().isBadRequest()
+        );
+    }
     }
