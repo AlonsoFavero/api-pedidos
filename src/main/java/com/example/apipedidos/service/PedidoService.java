@@ -2,6 +2,7 @@ package com.example.apipedidos.service;
 
 import com.example.apipedidos.exception.ClienteNotFoundException;
 import com.example.apipedidos.exception.EstoqueInsuficienteException;
+import com.example.apipedidos.exception.PedidoNotFoundException;
 import com.example.apipedidos.exception.ProdutoNotFoundException;
 import com.example.apipedidos.model.*;
 import com.example.apipedidos.repository.ClienteRepository;
@@ -87,7 +88,7 @@ public class PedidoService {
 
     if(!pedidoEncontrado.isPresent()){
 
-        throw new ProdutoNotFoundException("pedido não encontardo");
+        throw new PedidoNotFoundException("pedido não encontardo");
 
     }
 
