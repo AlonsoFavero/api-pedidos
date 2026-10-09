@@ -258,4 +258,44 @@ public class PedidoControllerTest {
                 status().isNotFound()
         );
     }
-}
+
+
+    @Test
+    void deveRetornar404AoCriarPedidoComProdutoInexistente() throws Exception {
+
+        ResultActions cliente = mockMvc.perform(
+                post("/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "nome": "Alonso",
+                                "email": "alonso@email.com"
+                            }
+                            """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        ResultActions pedido = mockMvc.perform(
+                post("/pedidos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "cliente": {
+                                    "id": 1
+                                },
+                                "itens": [
+                                    {
+                                        "produto": {
+                                            "id": 999
+                                        },
+                                        "quantidade": 1
+                                    }
+                                ]
+                            }
+                            """)
+        ).andExpect(
+                status().isNotFound()
+        );
+    }
+    }
