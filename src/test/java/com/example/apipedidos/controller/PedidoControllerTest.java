@@ -298,4 +298,24 @@ public class PedidoControllerTest {
                 status().isNotFound()
         );
     }
+
+    @Test
+   void deveRetornar404AoCriarPedidoComClienteInexistente() throws  Exception{
+        ResultActions deveRetornar404 = mockMvc.perform(
+                post("/pedidos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "cliente": {
+                                    "id": 999
+                                },
+                                "itens": [
+                           
+                                ]
+                            }
+                            """)
+        ).andExpect(
+                status().isNotFound()
+        );
+    }
     }
