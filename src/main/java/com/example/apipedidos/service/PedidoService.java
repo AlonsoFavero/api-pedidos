@@ -57,7 +57,7 @@ public class PedidoService {
                 throw new EstoqueInsuficienteException("estoque insuficiente");
             }
 
-            produto .setEstoque(
+            produtoEncontrado.get().setEstoque(
                     produtoEncontrado.get().getEstoque() - itemPedido.getQuantidade()
             );
 
