@@ -399,6 +399,23 @@ public class PedidoControllerTest {
         ).andExpect(
                 status().isBadRequest()
         );
+
+        ResultActions consultaProduto = mockMvc.perform(
+                get("/produtos/" + produtoId)
+        ).andExpect(
+                status().isOk()
+        );
+
+        String produtoAtualizadoJson = consultaProduto.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JsonNode produtoAtualizado = mapper.readTree(produtoAtualizadoJson);
+
+        org.junit.jupiter.api.Assertions.assertEquals(
+                2,
+                produtoAtualizado.get("estoque").asInt()
+        );
     }
 
     @Test
