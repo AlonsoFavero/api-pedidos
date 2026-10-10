@@ -8,6 +8,7 @@ import com.example.apipedidos.model.*;
 import com.example.apipedidos.repository.ClienteRepository;
 import com.example.apipedidos.repository.PedidoRepository;
 import com.example.apipedidos.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +29,7 @@ public class PedidoService {
         this.produtoRepository = produtoRepository;
     }
 
+    @Transactional
     public Pedido salvar(Pedido pedido){
 
         Cliente cliente = pedido.getCliente();

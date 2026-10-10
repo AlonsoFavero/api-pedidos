@@ -400,4 +400,105 @@ public class PedidoControllerTest {
                 status().isBadRequest()
         );
     }
+
+    @Test
+    void deveDiminuirEstoqueAoCriarPedido() throws Exception{
+
+        ResultActions produto = mockMvc.perform(
+                post("/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                
+                                "nome":
+                                "Mouse"
+                                ,
+                                "preco":
+                                100
+                                ,
+                                "estoque":
+                                10
+                                
+                                }
+                                """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        ResultActions cliente = mockMvc.perform(
+                post("/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                               {
+                               "nome":
+                               "Alonso"
+                               ,
+                               "email":
+                               "alonso@email.com"
+                               
+                               }
+                               """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        String produtoJson = produto.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        String clienteJson = cliente.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Long produtoId = mapper.readTree(produtoJson)
+                .get("id").asLong();
+
+        Long clienteId = mapper.readTree(clienteJson)
+                .get("id").asLong();
+
+
+        ResultActions pedidos = mockMvc.perform(
+                post("/pedidos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                
+                                "cliente": {
+                                    "id": %d
+                                },
+                                "itens":[
+                                
+                                {
+                                "produto":{
+                                "id":%d
+                                },
+                                "quantidade":3
+                                }
+                                ]
+                                  }
+                                """.formatted(clienteId, produtoId))
+        ).andExpect(
+                status().isCreated()
+        );
+
+
+        ResultActions consultaProduto = mockMvc.perform(
+                get("/produtos/" + produtoId)
+        ).andExpect(
+                status().isOk()
+        );
+
+        String produtoAtualizadoJson = consultaProduto.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JsonNode produtoAtualizado = mapper.readTree(produtoAtualizadoJson);
+
+        org.junit.jupiter.api.Assertions.assertEquals(
+                7,
+                produtoAtualizado.get("estoque").asInt()
+        );
+    }
     }
