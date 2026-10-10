@@ -66,7 +66,7 @@ public class PedidoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                    "cliente":{
+                                    "cliente": {
                                         "id": 1
                                     },
                                     "itens": [
@@ -105,36 +105,34 @@ public class PedidoControllerTest {
     }
 
     @Test
-    void deveBuscarPorId() throws Exception{
+    void deveBuscarPorId() throws Exception {
 
         ResultActions produtos = mockMvc.perform(
                 post("/produtos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "nome": "Mouse",
-                                "preco": 100,
-                                "estoque": 10
+                                    "nome": "Mouse",
+                                    "preco": 100,
+                                    "estoque": 10
                                 }
                                 """)
         ).andExpect(
                 status().isCreated()
         );
-
 
         ResultActions cliente = mockMvc.perform(
                 post("/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "nome": "Alonso",
-                                "email": "alonso@email.com"
+                                    "nome": "Alonso",
+                                    "email": "alonso@email.com"
                                 }
                                 """)
         ).andExpect(
                 status().isCreated()
         );
-
 
         String produtoJson = produtos.andReturn()
                 .getResponse()
@@ -145,17 +143,17 @@ public class PedidoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "cliente":{
-                                "id": 1
-                                },
-                                "itens":[
-                                {
-                                "produto": {
-                                "id": 1
-                                },
-                                "quantidade": 1
-                                }
-                                ]
+                                    "cliente": {
+                                        "id": 1
+                                    },
+                                    "itens": [
+                                        {
+                                            "produto": {
+                                                "id": 1
+                                            },
+                                            "quantidade": 1
+                                        }
+                                    ]
                                 }
                                 """)
         ).andDo(result -> System.out.println(
@@ -175,20 +173,19 @@ public class PedidoControllerTest {
         ).andExpect(
                 status().isOk()
         );
-
     }
 
     @Test
-    void deveListarPedido() throws Exception{
+    void deveListarPedido() throws Exception {
 
         ResultActions produtos = mockMvc.perform(
                 post("/produtos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "nome": "Mouse",
-                                "preco": 100,
-                                "estoque": 10
+                                    "nome": "Mouse",
+                                    "preco": 100,
+                                    "estoque": 10
                                 }
                                 """)
         ).andExpect(
@@ -200,8 +197,8 @@ public class PedidoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "nome": "Alonso",
-                                "email": "alonso@email.com"
+                                    "nome": "Alonso",
+                                    "email": "alonso@email.com"
                                 }
                                 """)
         ).andExpect(
@@ -217,17 +214,17 @@ public class PedidoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "cliente":{
-                                "id": 1
-                                },
-                                "itens":[
-                                {
-                                "produto": {
-                                "id": 1
-                                },
-                                "quantidade": 1
-                                }
-                                ]
+                                    "cliente": {
+                                        "id": 1
+                                    },
+                                    "itens": [
+                                        {
+                                            "produto": {
+                                                "id": 1
+                                            },
+                                            "quantidade": 1
+                                        }
+                                    ]
                                 }
                                 """)
         ).andDo(result -> System.out.println(
@@ -250,28 +247,28 @@ public class PedidoControllerTest {
     }
 
     @Test
-    void deveRetornar404AoPagarPedidoInexistente() throws Exception{
+    void deveRetornar404AoPagarPedidoInexistente() throws Exception {
 
-       ResultActions deveRetornar404  = mockMvc.perform(
+        mockMvc.perform(
                 put("/pedidos/999/pagar")
         ).andExpect(
                 status().isNotFound()
         );
     }
 
-
     @Test
-    void deveRetornar404AoCriarPedidoComProdutoInexistente() throws Exception {
+    void deveRetornar404AoCriarPedidoComProdutoInexistente()
+            throws Exception {
 
         ResultActions cliente = mockMvc.perform(
                 post("/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                            {
-                                "nome": "Alonso",
-                                "email": "alonso@email.com"
-                            }
-                            """)
+                                {
+                                    "nome": "Alonso",
+                                    "email": "alonso@email.com"
+                                }
+                                """)
         ).andExpect(
                 status().isCreated()
         );
@@ -280,62 +277,105 @@ public class PedidoControllerTest {
                 post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                            {
-                                "cliente": {
-                                    "id": 1
-                                },
-                                "itens": [
-                                    {
-                                        "produto": {
-                                            "id": 999
-                                        },
-                                        "quantidade": 1
-                                    }
-                                ]
-                            }
-                            """)
+                                {
+                                    "cliente": {
+                                        "id": 1
+                                    },
+                                    "itens": [
+                                        {
+                                            "produto": {
+                                                "id": 999
+                                            },
+                                            "quantidade": 1
+                                        }
+                                    ]
+                                }
+                                """)
         ).andExpect(
                 status().isNotFound()
         );
     }
 
     @Test
-   void deveRetornar404AoCriarPedidoComClienteInexistente() throws  Exception{
-        ResultActions deveRetornar404 = mockMvc.perform(
-                post("/pedidos")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                            {
-                                "cliente": {
-                                    "id": 999
-                                },
-                                "itens": [
-                           
-                                ]
-                            }
-                            """)
-        ).andExpect(
-                status().isNotFound()
-        );
-    }
+    void deveRetornar404AoCriarPedidoComClienteInexistente()
+            throws Exception {
 
-    @Test
-    void deveRetornar400QuandoEstoqueForInsuficiente() throws Exception{
         ResultActions produto = mockMvc.perform(
                 post("/produtos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                
-                                "nome":
-                                "Mouse"
-                                ,
-                                "preco":
-                                100
-                                ,
-                                "estoque":
-                                2
-                                
+                                    "nome": "Mouse",
+                                    "preco": 100,
+                                    "estoque": 10
+                                }
+                                """)
+        ).andExpect(
+                status().isCreated()
+        );
+
+        String produtoJson = produto.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Long produtoId = mapper.readTree(produtoJson)
+                .get("id")
+                .asLong();
+
+        mockMvc.perform(
+                post("/pedidos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "cliente": {
+                                        "id": 999
+                                    },
+                                    "itens": [
+                                        {
+                                            "produto": {
+                                                "id": %d
+                                            },
+                                            "quantidade": 1
+                                        }
+                                    ]
+                                }
+                                """.formatted(produtoId))
+        ).andExpect(
+                status().isNotFound()
+        );
+
+        ResultActions consultaProduto = mockMvc.perform(
+                get("/produtos/" + produtoId)
+        ).andExpect(
+                status().isOk()
+        );
+
+        JsonNode produtoAtualizado = mapper.readTree(
+                consultaProduto.andReturn()
+                        .getResponse()
+                        .getContentAsString()
+        );
+
+        org.junit.jupiter.api.Assertions.assertEquals(
+                10,
+                produtoAtualizado.get("estoque").asInt()
+        );
+    }
+
+    @Test
+    void deveRetornar400QuandoEstoqueForInsuficiente()
+            throws Exception {
+
+        ResultActions produto = mockMvc.perform(
+                post("/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "nome": "Mouse",
+                                    "preco": 100,
+                                    "estoque": 2
                                 }
                                 """)
         ).andExpect(
@@ -346,15 +386,11 @@ public class PedidoControllerTest {
                 post("/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                               {
-                               "nome":
-                               "Alonso"
-                               ,
-                               "email":
-                               "alonso@email.com"
-                               
-                               }
-                               """)
+                                {
+                                    "nome": "Alonso",
+                                    "email": "alonso@email.com"
+                                }
+                                """)
         ).andExpect(
                 status().isCreated()
         );
@@ -370,31 +406,30 @@ public class PedidoControllerTest {
         ObjectMapper mapper = new ObjectMapper();
 
         Long produtoId = mapper.readTree(produtoJson)
-                .get("id").asLong();
+                .get("id")
+                .asLong();
 
         Long clienteId = mapper.readTree(clienteJson)
-                .get("id").asLong();
+                .get("id")
+                .asLong();
 
-
-        ResultActions pedidos = mockMvc.perform(
+        mockMvc.perform(
                 post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                
-                                "cliente": {
-                                    "id": %d
-                                },
-                                "itens":[
-                                
-                                {
-                                "produto":{
-                                "id":%d
-                                },
-                                "quantidade":5
+                                    "cliente": {
+                                        "id": %d
+                                    },
+                                    "itens": [
+                                        {
+                                            "produto": {
+                                                "id": %d
+                                            },
+                                            "quantidade": 5
+                                        }
+                                    ]
                                 }
-                                ]
-                              
                                 """.formatted(clienteId, produtoId))
         ).andExpect(
                 status().isBadRequest()
@@ -410,7 +445,9 @@ public class PedidoControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        JsonNode produtoAtualizado = mapper.readTree(produtoAtualizadoJson);
+        JsonNode produtoAtualizado = mapper.readTree(
+                produtoAtualizadoJson
+        );
 
         org.junit.jupiter.api.Assertions.assertEquals(
                 2,
@@ -419,23 +456,16 @@ public class PedidoControllerTest {
     }
 
     @Test
-    void deveDiminuirEstoqueAoCriarPedido() throws Exception{
+    void deveDiminuirEstoqueAoCriarPedido() throws Exception {
 
         ResultActions produto = mockMvc.perform(
                 post("/produtos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                
-                                "nome":
-                                "Mouse"
-                                ,
-                                "preco":
-                                100
-                                ,
-                                "estoque":
-                                10
-                                
+                                    "nome": "Mouse",
+                                    "preco": 100,
+                                    "estoque": 10
                                 }
                                 """)
         ).andExpect(
@@ -446,15 +476,11 @@ public class PedidoControllerTest {
                 post("/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                               {
-                               "nome":
-                               "Alonso"
-                               ,
-                               "email":
-                               "alonso@email.com"
-                               
-                               }
-                               """)
+                                {
+                                    "nome": "Alonso",
+                                    "email": "alonso@email.com"
+                                }
+                                """)
         ).andExpect(
                 status().isCreated()
         );
@@ -470,36 +496,34 @@ public class PedidoControllerTest {
         ObjectMapper mapper = new ObjectMapper();
 
         Long produtoId = mapper.readTree(produtoJson)
-                .get("id").asLong();
+                .get("id")
+                .asLong();
 
         Long clienteId = mapper.readTree(clienteJson)
-                .get("id").asLong();
+                .get("id")
+                .asLong();
 
-
-        ResultActions pedidos = mockMvc.perform(
+        mockMvc.perform(
                 post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                
-                                "cliente": {
-                                    "id": %d
-                                },
-                                "itens":[
-                                
-                                {
-                                "produto":{
-                                "id":%d
-                                },
-                                "quantidade":3
+                                    "cliente": {
+                                        "id": %d
+                                    },
+                                    "itens": [
+                                        {
+                                            "produto": {
+                                                "id": %d
+                                            },
+                                            "quantidade": 3
+                                        }
+                                    ]
                                 }
-                                ]
-                                  }
                                 """.formatted(clienteId, produtoId))
         ).andExpect(
                 status().isCreated()
         );
-
 
         ResultActions consultaProduto = mockMvc.perform(
                 get("/produtos/" + produtoId)
@@ -511,11 +535,13 @@ public class PedidoControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        JsonNode produtoAtualizado = mapper.readTree(produtoAtualizadoJson);
+        JsonNode produtoAtualizado = mapper.readTree(
+                produtoAtualizadoJson
+        );
 
         org.junit.jupiter.api.Assertions.assertEquals(
                 7,
                 produtoAtualizado.get("estoque").asInt()
         );
     }
-    }
+}
