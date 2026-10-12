@@ -7,6 +7,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,5 +32,25 @@ public class ProdutoControllerTest {
                                 }
                                 """)
         ).andExpect(status().isCreated());
+    }
+
+    @Test
+    void deveBuscarPorId() throws Exception{
+
+        mockMvc.perform(
+                post("/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "nome": "Mouse",
+                                "preco": 100,
+                                "estoque": 10
+                                }
+                                """)
+        ).andExpect(status().isCreated());
+
+        mockMvc.perform(
+                get("/produtos/1")
+        ).andExpect(status().isOk());
     }
 }
