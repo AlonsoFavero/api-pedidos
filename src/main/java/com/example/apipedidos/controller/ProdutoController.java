@@ -23,7 +23,7 @@ public class ProdutoController {
 
         Produto produtoCriar = produtoService.salvar(produto);
 
-        return produto;
+        return produtoCriar;
     }
 
     @GetMapping("/{id}")
