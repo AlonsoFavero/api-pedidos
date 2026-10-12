@@ -61,4 +61,20 @@ public class ProdutoControllerTest {
                 get("/produtos/999")
         ).andExpect(status().isNotFound());
     }
+
+    @Test
+    void deveRetornar400QuandoProdutoForInvalido() throws Exception{
+
+        mockMvc.perform(
+                post("/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "nome": "",
+                                "preco": -1,
+                                "estoque": -10
+                                }
+                                """)
+        ).andExpect(status().isBadRequest());
+    }
 }

@@ -2,7 +2,10 @@ package com.example.apipedidos.service;
 
 import com.example.apipedidos.model.Produto;
 import com.example.apipedidos.repository.ProdutoRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -22,7 +25,9 @@ public class ProdutoService {
 
     public Produto buscarPorId(Long id){
 
-        return produtoRepository.findById(id).orElse(null);
+        return produtoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "produto não encontrado"
+        ));
     }
 
     public List<Produto> listar(){
