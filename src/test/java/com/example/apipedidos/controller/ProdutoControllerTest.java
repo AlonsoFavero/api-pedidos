@@ -53,4 +53,12 @@ public class ProdutoControllerTest {
                 get("/produtos/1")
         ).andExpect(status().isOk());
     }
+
+    @Test
+    void deveRetornar404QuandoProdutoNaoExiste() throws Exception{
+
+        mockMvc.perform(
+                get("/produtos/999")
+        ).andExpect(status().isNotFound());
+    }
 }
