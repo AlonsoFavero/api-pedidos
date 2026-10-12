@@ -23,6 +23,6 @@ public class ClienteController {
 
         Cliente clienteCriar = clienteService.salvar(cliente);
 
-        return cliente;
+        return clienteCriar;
     }
 }
