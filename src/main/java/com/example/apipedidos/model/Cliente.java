@@ -2,6 +2,7 @@ package com.example.apipedidos.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class Cliente {
     @NotBlank
     private String nome;
     @NotBlank
+    @Email
     private String email;
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
