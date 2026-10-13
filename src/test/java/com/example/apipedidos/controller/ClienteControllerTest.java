@@ -32,4 +32,19 @@ public class ClienteControllerTest {
                                 """)
         ).andExpect(status().isCreated());
     }
+    @Test
+    void deveRetornar404SeClienteForInvalido() throws Exception{
+
+        mockMvc.perform(
+                post("/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "nome": "",
+                                "email": "",
+                                "senha": 10
+                                }
+                                """)
+        ).andExpect(status().isBadRequest());
+    }
 }
