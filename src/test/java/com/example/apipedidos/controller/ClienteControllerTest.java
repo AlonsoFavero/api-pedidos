@@ -47,4 +47,20 @@ public class ClienteControllerTest {
                                 """)
         ).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void deveRetornar400QuandoEmailForInvalido() throws Exception{
+
+        mockMvc.perform(
+                post("/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "nome": "Alonso",
+                                "email": "alonso",
+                                "senha": 10
+                                }
+                                """)
+        ).andExpect(status().isBadRequest());
+    }
 }
