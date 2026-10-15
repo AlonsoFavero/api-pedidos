@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -32,5 +34,11 @@ public class ClienteController {
         Cliente buscarCliente = clienteService.buscarPorId(id);
 
         return buscarCliente;
+    }
+
+    @GetMapping
+    public List<Cliente> listar(){
+
+        return clienteService.listar();
     }
 }
