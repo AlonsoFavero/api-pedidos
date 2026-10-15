@@ -86,15 +86,7 @@ public class PedidoService {
 
     public Pedido pagar (Long id){
 
-        Optional<Pedido> pedidoEncontrado = pedidoRepository.findById(id);
-
-    if(!pedidoEncontrado.isPresent()){
-
-        throw new PedidoNotFoundException("pedido não encontardo");
-
-    }
-
-    Pedido pedido = pedidoEncontrado.get();
+       Pedido pedido = buscarPorId(id);
 
     pedido.setStatusPedido(StatusPedido.PAGO);
 
