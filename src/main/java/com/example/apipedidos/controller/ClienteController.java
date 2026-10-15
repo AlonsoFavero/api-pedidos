@@ -25,4 +25,12 @@ public class ClienteController {
 
         return clienteCriar;
     }
+
+    @GetMapping("/{id}")
+    public Cliente buscarPorId(@PathVariable Long id){
+
+        Cliente buscarCliente = clienteService.buscarPorId(id);
+
+        return buscarCliente;
+    }
 }
