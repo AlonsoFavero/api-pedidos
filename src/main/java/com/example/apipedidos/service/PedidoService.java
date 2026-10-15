@@ -76,7 +76,7 @@ public class PedidoService {
 
     public Pedido buscarPorId(Long id){
 
-        return pedidoRepository.findById(id).orElse(null);
+        return pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFoundException("pedido nâo encontrado"));
     }
 
     public List<Pedido> listar(){
