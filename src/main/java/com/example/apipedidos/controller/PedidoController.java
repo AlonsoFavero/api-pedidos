@@ -24,7 +24,7 @@ public class PedidoController{
 
         Pedido pedidoCriar = pedidoService.salvar(pedido);
 
-        return pedido;
+        return pedidoCriar;
     }
 
     @PutMapping("/{id}/pagar")
