@@ -84,4 +84,12 @@ public class ClienteControllerTest {
                 get("/clientes/1")
         ).andExpect(status().isOk());
     }
+
+    @Test
+    void deveRetornar404QuandoClienteNaoExiste() throws Exception{
+
+        mockMvc.perform(
+                get("/clientes/999")
+        ).andExpect(status().isNotFound());
+    }
 }

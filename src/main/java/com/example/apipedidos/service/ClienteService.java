@@ -2,7 +2,9 @@ package com.example.apipedidos.service;
 
 import com.example.apipedidos.model.Cliente;
 import com.example.apipedidos.repository.ClienteRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,7 +22,11 @@ public class ClienteService {
     }
 
     public Cliente buscarPorId(Long id) {
-        return clienteRepository.findById(id).orElse(null);
+
+        return clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "cliente não encontrado"
+        ));
+
     }
 
     public List<Cliente> listar() {
