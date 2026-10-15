@@ -92,4 +92,12 @@ public class ClienteControllerTest {
                 get("/clientes/999")
         ).andExpect(status().isNotFound());
     }
+
+    @Test
+    void deveListarClientes() throws Exception{
+
+        mockMvc.perform(
+                get("/clientes")
+        ).andExpect(status().isOk());
+    }
 }
