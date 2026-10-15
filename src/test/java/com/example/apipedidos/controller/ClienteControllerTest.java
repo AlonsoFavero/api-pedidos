@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -62,5 +63,25 @@ public class ClienteControllerTest {
                                 }
                                 """)
         ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deveBuscarClientePorId() throws Exception{
+
+        mockMvc.perform(
+                post("/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "nome": "Alonso",
+                                "email": "alonso@gmail.com",
+                                "senha": 10
+                                }
+                                """)
+        ).andExpect(status().isCreated());
+
+        mockMvc.perform(
+                get("/clientes/1")
+        ).andExpect(status().isOk());
     }
 }
